@@ -6,5 +6,8 @@
   "repository": "https://github.com/JacobMGEvans/twitter-bot-rtl.git",
   "author": "JacobMGEvans <jacobmgevans@gmail.com>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "dependencies": {
+    "twitter": "^1.7.1"
+  }
 }

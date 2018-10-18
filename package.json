@@ -1,0 +1,10 @@
+{
+  "name": "twitter-bot-rtl",
+  "version": "1.0.0",
+  "description": "Twitter bot for RTs and likes",
+  "main": "index.js",
+  "repository": "https://github.com/JacobMGEvans/twitter-bot-rtl.git",
+  "author": "JacobMGEvans <jacobmgevans@gmail.com>",
+  "license": "MIT",
+  "private": false
+}

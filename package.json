@@ -11,5 +11,21 @@
     "babel-eslint": "^10.0.1",
     "dotenv": "^6.1.0",
     "twitter": "^1.7.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-stage-0": "^7.0.0",
+    "babel-plugin-object-rest-spread": "^0.0.0",
+    "babel-plugin-static-fs": "^1.1.0",
+    "babel-plugin-stylus-compiler": "^1.4.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-css-import-to-string": "^0.0.2",
+    "babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
+    "babel-plugin-transform-es3-property-literals": "^6.22.0",
+    "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-plugin-version-inline": "^1.0.0"
   }
 }

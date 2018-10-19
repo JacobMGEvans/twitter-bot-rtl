@@ -8,6 +8,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "babel-eslint": "^10.0.1",
     "dotenv": "^6.1.0",
     "twitter": "^1.7.1"
   }

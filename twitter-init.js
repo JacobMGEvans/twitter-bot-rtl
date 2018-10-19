@@ -8,4 +8,5 @@ const initializeConfig = {
   accessTokenSecret: process.env.ACCESS_TOKEN_SECRET
 };
 
-export const Twitter = new TwitterPackage(initializeConfig);
+const Twitter = new TwitterPackage(initializeConfig);
+export default Twitter;

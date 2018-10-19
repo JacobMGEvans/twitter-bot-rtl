@@ -1,9 +1,9 @@
-import { Twitter } from './twitter-init';
+import Twitter from './twitter-init';
 
 console.log('HELLO I AM TWITTER BOT');
 const retweet = async () => {
   const params = {
-    q: '#nodejs, #Nodejs', 
+    q: '#nodejs, #Nodejs',
     result_type: 'recent',
     lang: 'en'
   };
@@ -24,7 +24,7 @@ const retweet = async () => {
             console.log('Retweeted!!!', response);
           }
           // if there was an error while tweeting
-          err ? console.log('ERROR POST/TWEETING RESPONSE',err)
+          err ? console.log('ERROR POST/TWEETING RESPONSE', err) : null;
         }
       )
         .then(response => console.log('REPONSE!!!!', response.json()))
@@ -33,7 +33,7 @@ const retweet = async () => {
   });
 };
 
-retweet().then(next => process.exit())
+retweet().then(next => process.exit());
 
 // retweet in every 50 minutes
 // setInterval(retweet, 3000000)

@@ -7,6 +7,9 @@
   "author": "JacobMGEvans <jacobmgevans@gmail.com>",
   "license": "MIT",
   "private": false,
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "babel-eslint": "^10.0.1",
     "dotenv": "^6.1.0",

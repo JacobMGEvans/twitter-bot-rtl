@@ -1,9 +1,9 @@
 import { Twitter } from './twitter-init';
 
 console.log('HELLO I AM TWITTER BOT');
-const retweet = () => {
+const retweet = async () => {
   const params = {
-    q: '#nodejs, #Nodejs', // REQUIRED
+    q: '#nodejs, #Nodejs', 
     result_type: 'recent',
     lang: 'en'
   };
@@ -24,17 +24,16 @@ const retweet = () => {
             console.log('Retweeted!!!', response);
           }
           // if there was an error while tweeting
-          if (err) {
-            console.log(
-              'Something went wrong while RETWEETING... Duplication maybe...'
-            );
-          }
+          err ? console.log('ERROR POST/TWEETING RESPONSE',err)
         }
-      );
-    }
-    // if unable to Search a tweet
-    else {
-      console.log('Something went wrong while SEARCHING...');
+      )
+        .then(response => console.log('REPONSE!!!!', response.json()))
+        .catch(error => console.log('ERROR!!! IN CATCH', error));
     }
   });
 };
+
+retweet().then(next => process.exit())
+
+// retweet in every 50 minutes
+// setInterval(retweet, 3000000)

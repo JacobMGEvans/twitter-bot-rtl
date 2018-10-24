@@ -1,6 +1,7 @@
 import Twitter from './twitter-init.mjs';
 
 console.log('HELLO I AM TWITTER BOT');
+
 const retweet = async () => {
   const params = {
     q: '#nodejs, #Nodejs',
@@ -10,6 +11,7 @@ const retweet = async () => {
 
   Twitter.get('search/tweets', params, (err, data) => {
     // if there no errors
+    console.log('I GOT THE DATA IN GET', data);
     if (!err) {
       // grab ID of tweet to retweet
       const retweetId = data.statuses[0].id_str;

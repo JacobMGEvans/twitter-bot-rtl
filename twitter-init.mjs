@@ -1,4 +1,4 @@
-import TwitterPackage from 'twitter';
+import TwitterPackage from 'twit';
 import dotenv from 'dotenv';
 dotenv.config();
 

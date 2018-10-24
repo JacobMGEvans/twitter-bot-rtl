@@ -13,7 +13,8 @@
   "dependencies": {
     "babel-eslint": "^10.0.1",
     "dotenv": "^6.1.0",
-    "twitter": "^1.7.1"
+    "koa": "^2.6.1",
+    "twit": "^2.2.11"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",

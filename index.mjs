@@ -1,41 +1,32 @@
 import Twitter from './twitter-init.mjs';
+import Koa from 'koa';
 
+const app = new Koa();
 console.log('HELLO I AM TWITTER BOT');
 
-const retweet = async () => {
-  const params = {
-    q: '#nodejs, #Nodejs',
-    result_type: 'recent',
-    lang: 'en'
-  };
+app.use(express.static('public'));
 
-  Twitter.get('search/tweets', params, (err, data) => {
-    // if there no errors
-    console.log('I GOT THE DATA IN GET', data);
-    if (!err) {
-      // grab ID of tweet to retweet
-      const retweetId = data.statuses[0].id_str;
-      // Tell TWITTER to retweet
-      Twitter.post(
-        'statuses/retweet/:id',
-        {
-          id: retweetId
-        },
-        (err, response) => {
-          if (response) {
-            console.log('Retweeted!!!', response);
-          }
-          // if there was an error while tweeting
-          err ? console.log('ERROR POST/TWEETING RESPONSE', err) : null;
-        }
-      )
-        .then(response => console.log('REPONSE!!!!', response.json()))
-        .catch(error => console.log('ERROR!!! IN CATCH', error));
+/* You can use cron-job.org, uptimerobot.com, or a similar site to hit your /BOT_ENDPOINT to wake up your app and make your Twitter bot tweet. */
+
+app.all('/' + process.env.BOT_ENDPOINT, function(req, res) {
+  /* The example below tweets out "Hello world!". */
+  Twitter.post('statuses/update', { status: 'hello world 👋' }, function(
+    err,
+    data,
+    response
+  ) {
+    if (err) {
+      console.log('error!', err);
+      res.sendStatus(500);
+    } else {
+      res.sendStatus(200);
     }
   });
-};
+});
 
-retweet().then(next => process.exit());
+const listener = app.listen(process.env.PORT, function() {
+  console.log('Your bot is running on port ' + listener.address().port);
+});
 
 // retweet in every 50 minutes
 // setInterval(retweet, 3000000)

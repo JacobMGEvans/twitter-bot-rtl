@@ -1,5 +1,6 @@
 import TwitterPackage from 'twitter';
-import {} from 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const initializeConfig = {
   consumerKey: process.env.CONSUMER_KEY,

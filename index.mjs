@@ -1,4 +1,4 @@
-import Twitter from './twitter-init';
+import Twitter from './twitter-init.mjs';
 
 console.log('HELLO I AM TWITTER BOT');
 const retweet = async () => {

@@ -7,13 +7,14 @@ const app = new Koa();
 app.use(async ctx => {
   console.log('HELLO I AM TWITTER BOT');
 
-  ctx.body = Twitter.get('account/verify_credentials', { skip_status: true })
-    .catch(err => {
-      console.log('caught error', err.stack);
-    })
-    .then(result => {
-      console.log('data', result.data);
-    });
+  ctx.body = Twitter.get(
+    'account/verify_credentials',
+    { skip_status: true },
+    (err, response) => {
+      console.log('DATA!!!! RESPONSESSSSSSSS', data);
+    }
+  );
+
   /* The example below tweets out "Hello world!". */
   // ctx.body = Twitter.post(
   //   'statuses/update',
@@ -26,9 +27,8 @@ app.use(async ctx => {
   // );
 });
 
-const listener = app.listen(() => {
-  console.log(`Your bot is running on port ${listener.address().port}`);
-});
+app.listen(3000);
+console.log(`Your bot is running on port ${listener.address(3000).port}`);
 
 // retweet in every 50 minutes
 // setInterval(retweet, 3000000)

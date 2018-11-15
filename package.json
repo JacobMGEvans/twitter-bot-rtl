@@ -40,6 +40,7 @@
     "@babel/plugin-transform-object-assign": "^7.0.0",
     "@babel/plugin-transform-property-literals": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
-    "@babel/preset-react": "^7.0.0"
+    "@babel/preset-react": "^7.0.0",
+    "babel-register": "^6.26.0"
   }
 }

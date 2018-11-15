@@ -9,7 +9,11 @@ const router = new Router();
 const port = 3000;
 
 // Experimental modules does not seem to support desctructuring the imports yet
-console.log(Luxon.DateTime.local());
+const dateWeekAgo = Luxon.DateTime.local()
+  .setZone('America/Los_Angeles')
+  .minus({ weeks: 1 })
+  .endOf('day').c;
+
 /* You can use cron-job.org, uptimerobot.com, or a similar site to hit your /BOT_ENDPOINT to wake up your app and make your Twitter bot tweet. */
 
 console.log('HELLO I AM TWITTER BOT');
@@ -33,11 +37,23 @@ router.get('/tweet', async (ctx, next) => {
 router.get('/search-tweets', async (ctx, next) => {
   const searchTweets = await Twitter.get(
     'search/tweets',
-    { q: 'banana since:2011-07-11', count: 100 },
+    {
+      q: `reactjs since:${dateWeekAgo.year}-${dateWeekAgo.day}-${
+        dateWeekAgo.month
+      }`,
+      count: 100
+    },
     function(err, data, response) {
+      // data is an object with id that is needed for retweets and likes
+      // text in the object is the actual tweet
       console.log(data);
+
+      if (err) console.log(err);
+
+      return response;
     }
   );
+  return searchTweets;
 });
 router.get('/favorite', async (ctx, next) => {});
 

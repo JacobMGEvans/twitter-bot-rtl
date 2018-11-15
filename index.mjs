@@ -16,32 +16,23 @@ const app = new Koa();
 const router = new Router();
 const Twitter = new Twit(initializeConfig);
 
-app.use(router.routes()).use(router.allowedMethods());
 /* You can use cron-job.org, uptimerobot.com, or a similar site to hit your /BOT_ENDPOINT to wake up your app and make your Twitter bot tweet. */
 
-router.post('/tweet', (ctx, next) => {
+router.get('/tweet', async (ctx, next) => {
   console.log('HELLO I AM TWITTER BOT');
 
   const Post = await (ctx.body = Twitter.post(
     'statuses/update',
-    { status: 'First Tweet, Missing Hello World?' },
+    { status: 'First Tweet, Hello World?' },
     (err, data, response) => {
       console.log('*******DATA*******', data);
-      console.log('RESPONSE', response.header);
+      console.log('RESPONSE', response.request.headers);
 
       if (err) console.log('ERROR!!!!', err);
     }
   ));
   return Post;
 });
-// ctx.body = Twitter.get(
-//   'account/verify_credentials',
-//   { skip_status: true },
-//   (err, response) => {
-//     console.log('DATA!!!! RESPONSESSSSSSSS', data);
-//   }
-// );
-/* The example below tweets out "Hello world!". */
 
 // Favorite example code
 // T.post('favorites/create', id, function(err, response){
@@ -56,6 +47,7 @@ router.post('/tweet', (ctx, next) => {
 //     console.log('Favorited: ', `https://twitter.com/${username}/status/${tweetId}`)
 //   }
 // });
+app.use(router.routes()).use(router.allowedMethods());
 app.listen(3000);
 console.log(`Your bot is running on port 3000`);
 

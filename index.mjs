@@ -1,5 +1,6 @@
-const Twit = require('twit');
 const Koa = require('koa');
+const Twit = require('twit');
+const Router = require('koa-router');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -11,11 +12,14 @@ const initializeConfig = {
   access_token_secret: process.env.ACCESS_TOKEN_SECRET
 };
 
-const Twitter = new Twit(initializeConfig);
 const app = new Koa();
+const router = new Router();
+const Twitter = new Twit(initializeConfig);
 
+app.use(router.routes()).use(router.allowedMethods());
 /* You can use cron-job.org, uptimerobot.com, or a similar site to hit your /BOT_ENDPOINT to wake up your app and make your Twitter bot tweet. */
-app.use(async ctx => {
+
+router.post('/tweet', (ctx, next) => {
   console.log('HELLO I AM TWITTER BOT');
 
   const Post = await (ctx.body = Twitter.post(

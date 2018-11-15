@@ -1,6 +1,5 @@
 import Twit from 'twit';
 import Koa from 'koa';
-import 'babel-register';
 
 import dotenv from 'dotenv';
 dotenv.config();

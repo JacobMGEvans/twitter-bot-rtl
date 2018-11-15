@@ -24,13 +24,13 @@ router.get('/tweet', async (ctx, next) => {
   const Post = await (ctx.body = Twitter.post(
     'statuses/update',
     { status: 'First Tweet, Hello World?' },
-    (err, data, response) => {
-      console.log('*******DATA*******', data);
-      console.log('RESPONSE', response.request.headers);
+    (err, dataTweet, response) => {
+      console.log('*******####DATA####*******', dataTweet);
 
-      if (err) console.log('ERROR!!!!', err);
+      if (err) console.log('*****######ERROR!!!!', err);
     }
   ));
+
   return Post;
 });
 

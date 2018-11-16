@@ -54,7 +54,7 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-initialization.js
+initialization.mjs
 # dotenv environment variables file
 .env
 *.env

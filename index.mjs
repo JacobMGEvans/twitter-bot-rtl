@@ -45,7 +45,7 @@ router.get('/search-tweets', async (ctx, next) => {
     },
     function(err, data, response) {
       // data is an object with id that is needed for retweets and likes
-      // text in the object is the actual tweet
+      // text in the objecta is the actual tweet
       console.log(data);
 
       if (err) console.log(err);

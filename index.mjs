@@ -56,11 +56,18 @@ router.get('/search-tweets', async (ctx, next) => {
 });
 
 router.get('/retweet', async (ctx, next) => {
-  Twitter.post('statuses/retweet/:id', { id: '343360866131001345' }, function (err, data, response) {
-    console.log(data)
-  })
+  Twitter.post('statuses/retweet/:id', { id: '343360866131001345' }, function(
+    err,
+    data,
+    response
+  ) {
+    console.log(data);
+  });
 });
 
+router.get('/favorite', async (ctx, next) => {
+  Twitter.post('favorites/create');
+});
 // retweet in every 50 minutes
 // setInterval(retweet, 3000000)
 app.use(router.routes()).use(router.allowedMethods());

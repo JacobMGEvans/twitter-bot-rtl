@@ -11,7 +11,7 @@ const port = 3000;
 // Experimental modules does not seem to support desctructuring the imports yet
 const dateDayAgo = Luxon.DateTime.local()
   .setZone('America/Los_Angeles')
-  .minus({ days: 1 })
+  .minus({ weeks: 1 })
   .endOf('day').c;
 
 /* You can use cron-job.org, uptimerobot.com, or a similar site to hit your /BOT_ENDPOINT to wake up your app and make your Twitter bot tweet. */
@@ -19,6 +19,7 @@ const dateDayAgo = Luxon.DateTime.local()
 console.log('HELLO I AM TWITTER BOT');
 
 router.get('/tweet', async (ctx, next) => {
+  // Might change to a stream that happens on an event like follow that sends a message to the user
   const postTweet = (ctx.body = await Twitter.post(
     'statuses/update',
     {
@@ -35,18 +36,21 @@ router.get('/tweet', async (ctx, next) => {
 });
 
 router.get('/search-tweets', async (ctx, next) => {
+  const queryOptions = `#reactjs OR reactjs OR #javascript`;
   const searchTweets = await Twitter.get(
     'search/tweets',
     {
-      q: `#reactjs since:${dateDayAgo.year}-${dateDayAgo.day}-${
+      q: `${queryOptions} since:${dateDayAgo.year}-${dateDayAgo.day}-${
         dateDayAgo.month
       }`,
-      count: 10
+      count: 15
     },
     (err, data, response) => {
       // data is an object with id that is needed for retweets and likes
       // text in the objecta is the actual tweet
       console.log(data);
+      // const { id } = response;
+      // ctx.state.idFound = id;
 
       if (err) console.log('#*#*#ERROR*#*#*', err);
       return response;
@@ -55,19 +59,19 @@ router.get('/search-tweets', async (ctx, next) => {
   return searchTweets;
 });
 
-router.get('/retweet', async (ctx, next) => {
-  Twitter.post('statuses/retweet/:id', { id: '343360866131001345' }, function(
-    err,
-    data,
-    response
-  ) {
-    console.log(data);
-  });
-});
+// router.get('/retweet', async (ctx, next) => {
+//   Twitter.post('statuses/retweet/:id', { id: ctx.idFound }, function(
+//     err,
+//     data,
+//     response
+//   ) {
+//     console.log(data);
+//   });
+// });
 
-router.get('/favorite', async (ctx, next) => {
-  Twitter.post('favorites/create');
-});
+// router.get('/favorite', async (ctx, next) => {
+//   Twitter.post('favorites/create');
+// });
 // retweet in every 50 minutes
 // setInterval(retweet, 3000000)
 app.use(router.routes()).use(router.allowedMethods());

@@ -14,7 +14,6 @@
     "babel-eslint": "^10.0.1",
     "koa": "^2.6.2",
     "koa-router": "^7.4.0",
-    "luxon": "^1.8.2",
     "twit": "^2.2.11"
   },
   "devDependencies": {

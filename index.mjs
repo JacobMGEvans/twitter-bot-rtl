@@ -1,18 +1,11 @@
 import Koa from 'koa';
 import Router from 'koa-router';
-import Luxon from 'luxon';
 
 import Twitter from './initialization.mjs';
 
 const app = new Koa();
 const router = new Router();
 const port = 3000;
-
-// Experimental modules does not seem to support desctructuring the imports yet
-const dateDayAgo = Luxon.DateTime.local()
-  .setZone('America/Los_Angeles')
-  .minus({ weeks: 1 })
-  .endOf('day').c;
 
 /* You can use cron-job.org, uptimerobot.com, or a similar site to hit your /BOT_ENDPOINT to wake up your app and make your Twitter bot tweet. */
 
@@ -36,12 +29,11 @@ router.get('/tweet', async (ctx, next) => {
 });
 
 router.get('/search-tweets', async (ctx, next) => {
-  const queryOptions = `#reactjs OR reactjs OR #javascript`;
+  const queryOptions = `#react OR reactjs #javascript`;
   const searchTweets = await Twitter.get(
     'search/tweets',
     {
-      q: `${queryOptions} since:${dateDayAgo.year}-${dateDayAgo.day}-${
-        dateDayAgo.month
+      q: `${queryOptions}
       }`,
       count: 15
     },

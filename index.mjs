@@ -42,13 +42,11 @@ router.get('/search-retweet', async (ctx, next) => {
       // data is an object statuses which is an array of the responses that match the q: parameter
       // data is an object with id that is needed for retweets and likes
       // text in the objecta is the actual tweet
-      const { text } = data.statuses[0]; // MAP the response object array of tweets for texts and ids
-      const { id } = data.statuses[0];
+      data.statuses.map((element, index) => {
+        const { id } = data.statuses[index];
 
-      console.log('TEXT STATUS', text);
-      console.log('ID OF STATUS', id);
-
-      foundIdSet.add(id);
+        foundIdSet.add(id);
+      });
 
       console.log('*****', foundIdSet, 'SET ID LIST');
 
@@ -57,24 +55,24 @@ router.get('/search-retweet', async (ctx, next) => {
   );
 
   // this will be called ForEach status/tweet found and put into the array
-  const retweetPost = await foundIdSet.forEach(idElement => {
-    if (idElement) {
-      Twitter.post(
-        'statuses/retweet/:id',
-        { id: idElement },
-        (err, data, response) => {
-          console.log(data, 'RETWEET SUCCESSFUL');
-          console.log(response, 'RESPONSE SUCCESSFUL RT');
+  // const retweetPost = await foundIdSet.forEach(idElement => {
+  //   if (idElement) {
+  //     Twitter.post(
+  //       'statuses/retweet/:id',
+  //       { id: idElement },
+  //       (err, data, response) => {
+  //         console.log(data, 'RETWEET SUCCESSFUL');
+  //         console.log(response, 'RESPONSE SUCCESSFUL RT');
 
-          err ? console.log('#*#*#ERROR*#*#*', err) : response;
-        }
-      );
-    } else {
-      return;
-    }
-  });
+  //         err ? console.log('#*#*#ERROR*#*#*', err) : response;
+  //       }
+  //     );
+  //   } else {
+  //     return;
+  //   }
+  // });
 
-  return [searchTweets, retweetPost];
+  return [searchTweets]; //retweetPost --> return in array
 });
 
 //   Twitter.post('favorites/create');

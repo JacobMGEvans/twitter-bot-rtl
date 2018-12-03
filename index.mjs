@@ -13,6 +13,7 @@ console.log('HELLO I AM TWITTER BOT');
 
 router.get('/tweet', async (ctx, next) => {
   // Might change to a stream that happens on an event like follow that sends a message to the user
+  // Once  the retweet
   const postTweet = (ctx.body = await Twitter.post(
     'statuses/update',
     {
@@ -28,43 +29,57 @@ router.get('/tweet', async (ctx, next) => {
   return postTweet;
 });
 
-router.get('/search-tweets', async (ctx, next) => {
-  const queryOptions = `#react OR reactjs #javascript`;
+router.get('/search-retweet', async (ctx, next) => {
+  const queryOptions = `#react OR @reactjs #javascript OR #Nodejs`;
+  const foundIdSet = new Set();
   const searchTweets = await Twitter.get(
     'search/tweets',
     {
-      q: `${queryOptions}
-      }`,
-      count: 15
+      q: `${queryOptions}`,
+      count: 5
     },
     (err, data, response) => {
+      // data is an object statuses which is an array of the responses that match the q: parameter
       // data is an object with id that is needed for retweets and likes
       // text in the objecta is the actual tweet
-      console.log(data);
-      // const { id } = response;
-      // ctx.state.idFound = id;
+      const { text } = data.statuses[0]; // MAP the response object array of tweets for texts and ids
+      const { id } = data.statuses[0];
 
-      if (err) console.log('#*#*#ERROR*#*#*', err);
-      return response;
+      console.log('TEXT STATUS', text);
+      console.log('ID OF STATUS', id);
+
+      foundIdSet.add(id);
+
+      console.log('*****', foundIdSet, 'SET ID LIST');
+
+      err ? console.log('#*#*#ERROR*#*#*', err) : response;
     }
   );
-  return searchTweets;
+
+  // this will be called ForEach status/tweet found and put into the array
+  const retweetPost = await foundIdSet.forEach(idElement => {
+    if (idElement) {
+      Twitter.post(
+        'statuses/retweet/:id',
+        { id: idElement },
+        (err, data, response) => {
+          console.log(data, 'RETWEET SUCCESSFUL');
+          console.log(response, 'RESPONSE SUCCESSFUL RT');
+
+          err ? console.log('#*#*#ERROR*#*#*', err) : response;
+        }
+      );
+    } else {
+      return;
+    }
+  });
+
+  return [searchTweets, retweetPost];
 });
 
-// router.get('/retweet', async (ctx, next) => {
-//   Twitter.post('statuses/retweet/:id', { id: ctx.idFound }, function(
-//     err,
-//     data,
-//     response
-//   ) {
-//     console.log(data);
-//   });
-// });
-
-// router.get('/favorite', async (ctx, next) => {
 //   Twitter.post('favorites/create');
-// });
-// retweet in every 50 minutes
-// setInterval(retweet, 3000000)
+// // retweet in every 3ish  hours
+// setInterval(retweet, 10900000)
+
 app.use(router.routes()).use(router.allowedMethods());
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

@@ -18,9 +18,6 @@ router.get('/search-retweet', async (ctx, next) => {
       count: 5
     },
     (err, data, response) => {
-      // data is an object statuses which is an array of the responses that match the q: parameter
-      // data is an object with id that is needed for retweets and likes
-      // text in the objecta is the actual tweet
       data.statuses.map((ele, index) => {
         const { id } = data.statuses[index];
 

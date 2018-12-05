@@ -8,7 +8,7 @@ const router = new Router();
 const port = 3000;
 console.log('HELLO I AM TWITTER BOT');
 
-router.get('/search-retweet', async (ctx, next) => {
+router.get('/retweet', async (ctx, next) => {
   const queryOptions = `#react OR @reactjs #javascript OR #Nodejs`;
   const foundIdSet = new Set();
   const searchTweets = await Twitter.get(
@@ -20,33 +20,30 @@ router.get('/search-retweet', async (ctx, next) => {
     (err, data, response) => {
       data.statuses.map((ele, index) => {
         const { id } = data.statuses[index];
-
         foundIdSet.add(id);
+        const arrayOfSet = Array.from(foundIdSet);
+        console.log(arrayOfSet, 'ARRAY FROM SET');
+        // foundIdSet.forEach(async idElement => {
+        //   console.log(idElement, 'ID ELEMENT!#@!@!!@!@@#@#$!');
+        //   while (idElement) {
+        //     const retweetId = await Twitter.post(
+        //       'statuses/retweet/:id',
+        //       { id: idElement },
+        //       (err, data, response) => {
+        //         console.log(data, 'RETWEET SUCCESSFUL');
+
+        //         err ? console.log('#*#*#ERROR*#*#*', err) : response;
+        //       }
+        //     );
+        //     return retweetId;
+        //   }
+        // });
       });
-
-      console.log('*****', foundIdSet, 'SET ID LIST');
-
       err ? console.log('#*#*#ERROR*#*#*', err) : response;
     }
   );
 
-  // this will be called ForEach status/tweet found and put into the array
-  const retweetPost = await foundIdSet.forEach(idElement => {
-    while (idElement) {
-      Twitter.post(
-        'statuses/retweet/:id',
-        { id: idElement },
-        (err, data, response) => {
-          console.log(data, 'RETWEET SUCCESSFUL');
-          console.log(response, 'RESPONSE SUCCESSFUL RT');
-
-          err ? console.log('#*#*#ERROR*#*#*', err) : response;
-        }
-      );
-    }
-  });
-
-  return [searchTweets, retweetPost];
+  return searchTweets;
 });
 
 // router.get('/tweet', async (ctx, next) => {

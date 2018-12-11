@@ -12,7 +12,6 @@ console.log('HELLO I AM TWITTER BOT');
 router.get('/retweet', async (ctx, next) => {
   const queryOptions = `#react OR @reactjs #javascript OR #Nodejs`;
   const foundIdArray = [];
-  const idsIntoSet = new Set();
 
   const searchTweets = await Twitter.get(
     'search/tweets',
@@ -27,11 +26,11 @@ router.get('/retweet', async (ctx, next) => {
       });
 
       const retweetFromIds = foundIdArray.forEach(async idElement => {
-        console.log(idElement, 'ID ELEMENT!#@!@!!@!@@#@#$!');
-        while (idElement) {
+        const stringifiedNumbner = idElement.toString();
+        if (stringifiedNumbner) {
           const retweetId = await Twitter.post(
             'statuses/retweet/:id',
-            { id: idElement.toString() },
+            { id: stringifiedNumbner },
             (err, data, response) => {
               console.log(data, 'RETWEET SUCCESSFUL');
 
@@ -39,16 +38,15 @@ router.get('/retweet', async (ctx, next) => {
             }
           );
           return retweetId;
+        } else {
+          throw new Error('ERROR IN RETWEET MISSING ERROR');
         }
       });
-
       err ? console.log('#*#*#ERROR*#*#*', err) : response;
     }
   );
 
-  console.log(searchTweets || foundIdArray);
-  // foundIdArray.map(ele => idsIntoSet.add(ele));
-  // console.log(idsIntoSet, 'set of IDs ');
+  return searchTweets;
 });
 
 // router.get('/tweet', async (ctx, next) => {

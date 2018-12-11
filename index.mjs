@@ -21,16 +21,18 @@ router.get('/retweet', async (ctx, next) => {
     },
     (err, data, response) => {
       data.statuses.map((ele, index) => {
-        const { id } = data.statuses[index];
-        foundIdArray.push(id);
+        console.log(data.statuses[0]);
+        const { id_str } = data.statuses[index];
+        foundIdArray.push(id_str);
       });
 
       const retweetFromIds = foundIdArray.forEach(async idElement => {
-        const stringifiedNumbner = idElement.toString();
-        if (stringifiedNumbner) {
+        // const stringifiedNumbner = idElement.toString();
+        console.log(idElement, 'ELEMENT ID ');
+        if (idElement) {
           const retweetId = await Twitter.post(
             'statuses/retweet/:id',
-            { id: stringifiedNumbner },
+            { id: idElement },
             (err, data, response) => {
               console.log(data, 'RETWEET SUCCESSFUL');
 

@@ -5,42 +5,50 @@ import Twitter from './initialization.mjs';
 
 const app = new Koa();
 const router = new Router();
-const port = 3000;
+const PORT = 3000;
+
 console.log('HELLO I AM TWITTER BOT');
 
 router.get('/retweet', async (ctx, next) => {
   const queryOptions = `#react OR @reactjs #javascript OR #Nodejs`;
-  const foundIdSet = new Set();
+  const foundIdArray = [];
+  const idsIntoSet = new Set();
+
   const searchTweets = await Twitter.get(
     'search/tweets',
     {
-      q: `${queryOptions}`,
+      q: queryOptions,
       count: 5
     },
     (err, data, response) => {
-      data.statuses.map((ele, index) => foundIdSet.add({id}) = data.statuses[index] );
+      data.statuses.map((ele, index) => {
+        const { id } = data.statuses[index];
+        foundIdArray.push(id);
+      });
+
+      const retweetFromIds = foundIdArray.forEach(async idElement => {
+        console.log(idElement, 'ID ELEMENT!#@!@!!@!@@#@#$!');
+        while (idElement) {
+          const retweetId = await Twitter.post(
+            'statuses/retweet/:id',
+            { id: idElement.toString() },
+            (err, data, response) => {
+              console.log(data, 'RETWEET SUCCESSFUL');
+
+              err ? console.log('#*#*#ERROR*#*#*', err) : response;
+            }
+          );
+          return retweetId;
+        }
+      });
+
       err ? console.log('#*#*#ERROR*#*#*', err) : response;
     }
   );
 
-  const arrayOfSet = await Array.from(foundIdSet);
-  console.log(arrayOfSet, 'ARRAY FROM SET');
-  // foundIdSet.forEach(async idElement => {
-  //   console.log(idElement, 'ID ELEMENT!#@!@!!@!@@#@#$!');
-  //   while (idElement) {
-  //     const retweetId = await Twitter.post(
-  //       'statuses/retweet/:id',
-  //       { id: idElement },
-  //       (err, data, response) => {
-  //         console.log(data, 'RETWEET SUCCESSFUL');
-
-  //         err ? console.log('#*#*#ERROR*#*#*', err) : response;
-  //       }
-  //     );
-  //     return retweetId;
-  //   }
-  // });
-  return searchTweets;
+  console.log(searchTweets || foundIdArray);
+  // foundIdArray.map(ele => idsIntoSet.add(ele));
+  // console.log(idsIntoSet, 'set of IDs ');
 });
 
 // router.get('/tweet', async (ctx, next) => {
@@ -62,4 +70,4 @@ router.get('/retweet', async (ctx, next) => {
 // });
 
 app.use(router.routes()).use(router.allowedMethods());
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));

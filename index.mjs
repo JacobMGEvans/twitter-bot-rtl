@@ -1,7 +1,7 @@
 import Koa from 'koa';
 import Router from 'koa-router';
-require('dotenv').config();
 import Twit from 'twit';
+require('dotenv').config();
 
 const Twitter = new Twit({
   consumer_key: process.env.KEY,
@@ -14,7 +14,7 @@ const app = new Koa();
 const router = new Router();
 const PORT = 3000;
 
-console.log('HELLO I AM TWITTER BOT');
+console.log('HELLO I AM THE TWITTER BOT');
 
 const findAndRetweet = async () => {
   const queryOptions = `#react OR @reactjs #javascript OR #Nodejs`;

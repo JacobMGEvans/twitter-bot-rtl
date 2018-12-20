@@ -1,7 +1,14 @@
 import Koa from 'koa';
 import Router from 'koa-router';
+require('dotenv').config();
+import Twit from 'twit';
 
-import Twitter from './initialization.mjs';
+const Twitter = new Twit({
+  consumer_key: process.env.KEY,
+  consumer_secret: process.env.CONSUMER_SECRET,
+  access_token: process.env.TOKEN,
+  access_token_secret: process.env.TOKEN_SECRET
+});
 
 const app = new Koa();
 const router = new Router();
@@ -17,7 +24,8 @@ router.get('/retweet', async (ctx, next) => {
     'search/tweets',
     {
       q: queryOptions,
-      count: 5
+      count: 5,
+      lang: 'en'
     },
     (err, data, response) => {
       data.statuses.map((ele, index) => {

@@ -16,7 +16,7 @@ const PORT = 3000;
 
 console.log('HELLO I AM TWITTER BOT');
 
-router.get('/retweet', async (ctx, next) => {
+const findAndRetweet = async () => {
   const queryOptions = `#react OR @reactjs #javascript OR #Nodejs`;
   const foundIdArray = [];
 
@@ -34,8 +34,7 @@ router.get('/retweet', async (ctx, next) => {
         foundIdArray.push(id_str);
       });
 
-      const retweetFromIds = foundIdArray.forEach(async idElement => {
-        // const stringifiedNumbner = idElement.toString();
+      foundIdArray.forEach(async idElement => {
         console.log(idElement, 'ELEMENT ID ');
         if (idElement) {
           const retweetId = await Twitter.post(
@@ -52,12 +51,16 @@ router.get('/retweet', async (ctx, next) => {
           throw new Error('ERROR IN RETWEET MISSING ERROR');
         }
       });
-      err ? console.log('#*#*#ERROR*#*#*', err) : response;
+      err ? console.error('#*#*#ERROR*#*#*', err) : response;
     }
   );
 
   return searchTweets;
-});
+};
+
+setInterval(() => {
+  findAndRetweet();
+}, 1500000);
 
 // router.get('/tweet', async (ctx, next) => {
 //   // Might change to a stream that happens on an event like follow that sends a message to the user

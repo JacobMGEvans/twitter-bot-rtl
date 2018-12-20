@@ -57,10 +57,7 @@ const findAndRetweet = async () => {
 
   return searchTweets;
 };
-
-setInterval(() => {
-  findAndRetweet();
-}, 1500000);
+findAndRetweet().catch(error => console.error(error, 'ERROR IN FUNCTION CALL'));
 
 // router.get('/tweet', async (ctx, next) => {
 //   // Might change to a stream that happens on an event like follow that sends a message to the user

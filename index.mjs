@@ -1,7 +1,8 @@
 import Koa from 'koa';
 import Router from 'koa-router';
 import Twit from 'twit';
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 const Twitter = new Twit({
   consumer_key: process.env.KEY,

@@ -60,23 +60,22 @@ const findAndRetweet = async () => {
 };
 findAndRetweet().catch(error => console.error(error, 'ERROR IN FUNCTION CALL'));
 
-// router.get('/tweet', async (ctx, next) => {
-//   // Might change to a stream that happens on an event like follow that sends a message to the user
-//   // Once  the retweet
-//   const postTweet = (ctx.body = await Twitter.post(
-//     'statuses/update',
-//     {
-//       status: 'Bot says: Attempting to remove duplicate requests  #coding'
-//     },
-//     (err, dataTweet, response) => {
-//       console.log('*******####DATA####*******', dataTweet);
+const tweet = async () => {
+  // Might change to a stream that happens on an event like follow that sends a message to the user
+  // Once  the retweet
+  const postTweet = await Twitter.post(
+    'statuses/update',
+    {
+      status: 'Bot says: Attempting to remove duplicate requests  #coding'
+    },
+    (err, dataTweet, response) => {
+      console.log('*******####DATA####*******', dataTweet);
 
-//       if (err) console.log('*****######ERROR!!!!', err);
-//       return response;
-//     }
-//   ));
-//   return postTweet;
-// });
+      err ? console.log('*****######ERROR!!!!', err) : response;
+    }
+  );
+  return postTweet;
+};
 
 app.use(router.routes()).use(router.allowedMethods());
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));

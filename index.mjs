@@ -17,52 +17,55 @@ const PORT = 3000;
 
 console.log('HELLO I AM THE TWITTER BOT');
 
-const findAndRetweet = async () => {
-  const queryOptions = `#react OR @reactjs #javascript OR #Nodejs`;
-  const foundIdArray = [];
+router.get('/retweet', (ctx, next) => {
+  const findAndRetweet = async () => {
+    const queryOptions = `#react OR @reactjs #javascript OR #Nodejs`;
+    const foundIdArray = [];
 
-  const searchTweets = await Twitter.get(
-    'search/tweets',
-    {
-      q: queryOptions,
-      count: 5,
-      lang: 'en'
-    },
-    (err, data, response) => {
-      data.statuses.map((ele, index) => {
-        console.log(data.statuses[0]);
-        const { id_str } = data.statuses[index];
-        foundIdArray.push(id_str);
-      });
+    const searchTweets = await Twitter.get(
+      'search/tweets',
+      {
+        q: queryOptions,
+        count: 5,
+        lang: 'en'
+      },
+      (err, data, response) => {
+        data.statuses.map((ele, index) => {
+          console.log(data.statuses[0]);
+          const { id_str } = data.statuses[index];
+          foundIdArray.push(id_str);
+        });
 
-      foundIdArray.forEach(async idElement => {
-        console.log(idElement, 'ELEMENT ID ');
-        if (idElement) {
-          const retweetId = await Twitter.post(
-            'statuses/retweet/:id',
-            { id: idElement },
-            (err, data, response) => {
-              console.log(data, 'RETWEET SUCCESSFUL');
+        foundIdArray.forEach(async idElement => {
+          console.log(idElement, 'ELEMENT ID ');
+          if (idElement) {
+            const retweetId = await Twitter.post(
+              'statuses/retweet/:id',
+              { id: idElement },
+              (err, data, response) => {
+                console.log(data, 'RETWEET SUCCESSFUL');
 
-              err ? console.log('#*#*#ERROR*#*#*', err) : response;
-            }
-          );
-          return retweetId;
-        } else {
-          throw new Error('ERROR IN RETWEET MISSING ERROR');
-        }
-      });
-      err ? console.error('#*#*#ERROR*#*#*', err) : response;
-    }
-  );
+                err ? console.log('#*#*#ERROR*#*#*', err) : response;
+              }
+            );
+            return retweetId;
+          } else {
+            throw new Error('ERROR IN RETWEET MISSING ERROR');
+          }
+        });
+        err ? console.error('#*#*#ERROR*#*#*', err) : response;
+      }
+    );
+    ctx.body(searchTweets);
+    return searchTweets;
+  };
+});
 
-  return searchTweets;
-};
-findAndRetweet().catch(error => console.error(error, 'ERROR IN FUNCTION CALL'));
-
-const tweet = async () => {
+router.get('/tweet', (ctx, next) => {
   // Might change to a stream that happens on an event like follow that sends a message to the user
   // Once  the retweet
+  // fetch random wisdom to post from some other API
+
   const postTweet = await Twitter.post(
     'statuses/update',
     {
@@ -74,8 +77,9 @@ const tweet = async () => {
       err ? console.log('*****######ERROR!!!!', err) : response;
     }
   );
-  return postTweet;
-};
+
+  ctx.body(postTwet);
+});
 
 app.use(router.routes()).use(router.allowedMethods());
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));

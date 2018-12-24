@@ -2,4 +2,16 @@
 
 - RT and likes some networking
 
-## Coveralls and Travis CI 
+## Steps To Setup Twitter Account
+
+## Routes - Retweet & Tweet(stream)
+
+## Technology Stack
+
+    - Koa
+    - node-fetch
+    - Twit
+    - Twitter API
+    - Quotes on Design
+
+## Coveralls and Travis CI

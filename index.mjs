@@ -18,48 +18,46 @@ const PORT = 3000;
 
 console.log('HELLO I AM THE TWITTER BOT');
 
-router.get('/retweet', (ctx, next) => {
-  const findAndRetweet = async () => {
-    const queryOptions = `#react OR @reactjs #javascript OR #Nodejs`;
-    const foundIdArray = [];
+router.get('/retweet', async (ctx, next) => {
+  const queryOptions = `#react OR @reactjs #javascript OR #Nodejs`;
+  const foundIdArray = [];
 
-    const searchTweets = await Twitter.get(
-      'search/tweets',
-      {
-        q: queryOptions,
-        count: 5,
-        lang: 'en'
-      },
-      (err, data, response) => {
-        data.statuses.map((ele, index) => {
-          console.log(data.statuses[0]);
-          const { id_str } = data.statuses[index];
-          foundIdArray.push(id_str);
-        });
+  const searchTweets = await Twitter.get(
+    'search/tweets',
+    {
+      q: queryOptions,
+      count: 5,
+      lang: 'en'
+    },
+    (err, data, response) => {
+      data.statuses.map((ele, index) => {
+        console.log(data.statuses[0]);
+        const { id_str } = data.statuses[index];
+        foundIdArray.push(id_str);
+      });
 
-        foundIdArray.forEach(async idElement => {
-          console.log(idElement, 'ELEMENT ID ');
-          if (idElement) {
-            const retweetId = await Twitter.post(
-              'statuses/retweet/:id',
-              { id: idElement },
-              (err, data, response) => {
-                console.log(data, 'RETWEET SUCCESSFUL');
+      foundIdArray.forEach(async idElement => {
+        console.log(idElement, 'ELEMENT ID ');
+        if (idElement) {
+          const retweetId = await Twitter.post(
+            'statuses/retweet/:id',
+            { id: idElement },
+            (err, data, response) => {
+              console.log(data, 'RETWEET SUCCESSFUL');
 
-                err ? console.log('#*#*#ERROR*#*#*', err) : response;
-              }
-            );
-            return retweetId;
-          } else {
-            throw new Error('ERROR IN RETWEET MISSING ERROR');
-          }
-        });
-        err ? console.error('#*#*#ERROR*#*#*', err) : response;
-      }
-    );
-    ctx.body(searchTweets);
-    return searchTweets;
-  };
+              err ? console.log('#*#*#ERROR*#*#*', err) : response;
+            }
+          );
+          return retweetId;
+        } else {
+          throw new Error('ERROR IN RETWEET MISSING ERROR');
+        }
+      });
+      err ? console.error('#*#*#ERROR*#*#*', err) : response;
+    }
+  );
+  ctx.body(searchTweets);
+  return searchTweets;
 });
 
 router.get('/tweet', async (ctx, next) => {

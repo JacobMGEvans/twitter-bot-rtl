@@ -1,7 +1,7 @@
 {
   "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaVersion": 7
+    "ecmaVersion": 9
   },
   "plugins": ["babel"],
   "extends": "airbnb",
@@ -10,6 +10,7 @@
     "polyfills": ["fetch"]
   },
   "rules": {
+    "quotes": [2, "backtick", "avoid-escape"],
     "babel/semi": [2, "always"],
     "babel/new-cap": [0],
     "babel/no-invalid-this": [1],

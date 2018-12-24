@@ -2,6 +2,7 @@ import Koa from 'koa';
 import Router from 'koa-router';
 import Twit from 'twit';
 import dotenv from 'dotenv';
+import fetch from 'node-fetch'
 dotenv.config();
 
 const Twitter = new Twit({
@@ -65,11 +66,14 @@ router.get('/tweet', (ctx, next) => {
   // Might change to a stream that happens on an event like follow that sends a message to the user
   // Once  the retweet
   // fetch random wisdom to post from some other API
+  const hashesAndStuff = `#javascript #react #node #startup #coding @AudeaDev`;
+  const dataQuotes = fetch
+
 
   const postTweet = await Twitter.post(
     'statuses/update',
     {
-      status: 'Bot says: Attempting to remove duplicate requests  #coding'
+      status: `${} ${hashesAndStuff}`
     },
     (err, dataTweet, response) => {
       console.log('*******####DATA####*******', dataTweet);

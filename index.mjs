@@ -23,14 +23,14 @@ router.get('/', async (ctx, next) => {
 });
 
 router.get('/retweet', async (ctx, next) => {
-  const queryOptions = `#react OR @reactjs #javascript OR #Nodejs`;
+  const queryOptions = `@reactjs OR #javascript OR @parceljs`;
   const foundIdArray = [];
 
   const searchTweets = await Twitter.get(
     'search/tweets',
     {
       q: queryOptions,
-      count: 5,
+      count: 10,
       lang: 'en'
     },
     (err, data, response) => {

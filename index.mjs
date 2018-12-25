@@ -89,7 +89,7 @@ router.get('/tweet', async (ctx, next) => {
       err ? console.log('*****######ERROR!!!!', err) : response;
     }
   );
-
+  ctx.body = postMessage;
   return postTweet;
 });
 

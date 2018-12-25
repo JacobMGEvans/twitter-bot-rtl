@@ -9,7 +9,7 @@
 ## Technology Stack
 
     - Koa
-    - node-fetch
+    - Axios
     - Twit
     - Twitter API
     - Quotes on Design

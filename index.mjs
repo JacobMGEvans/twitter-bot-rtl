@@ -2,7 +2,6 @@ import Koa from 'koa';
 import Router from 'koa-router';
 import Twit from 'twit';
 import dotenv from 'dotenv';
-import fetch from 'node-fetch';
 import axios from 'axios';
 
 dotenv.config();

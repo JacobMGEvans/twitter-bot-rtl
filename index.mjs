@@ -19,6 +19,10 @@ const PORT = 3000;
 
 console.log('HELLO I AM THE TWITTER BOT');
 
+router.get('/', async (ctx, next) => {
+  ctx.body = `HOME ROUTE FOR TWITTER BOT`;
+});
+
 router.get('/retweet', async (ctx, next) => {
   const queryOptions = `#react OR @reactjs #javascript OR #Nodejs`;
   const foundIdArray = [];

@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const router = new Router();
 
-const tweet = router.get('/tweet', async (ctx, next) => {
+router.get('/tweet', async (ctx, next) => {
   // Might change to a stream that happens on an event like follow that sends a message to the user
   // Once  the retweet
   // fetch random wisdom to post from some other API
@@ -32,5 +32,3 @@ const tweet = router.get('/tweet', async (ctx, next) => {
 
   return postTweet;
 });
-
-export default tweet;

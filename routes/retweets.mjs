@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const router = new Router();
 
-const retweet = router.get('/retweet', async (ctx, next) => {
+router.get('/retweet', async (ctx, next) => {
   const queryOptions = `#react OR @reactjs #javascript OR #Nodejs`;
   const foundIdArray = [];
 
@@ -45,5 +45,3 @@ const retweet = router.get('/retweet', async (ctx, next) => {
   ctx.body(searchTweets);
   return searchTweets;
 });
-
-export default retweet;

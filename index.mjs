@@ -15,8 +15,7 @@ const Twitter = new Twit({
 
 const app = new Koa();
 const router = new Router();
-const PORT = 3000;
-
+const PORT = process.env.PORT || 3000;
 console.log('HELLO I AM THE TWITTER BOT');
 
 router.get('/', async (ctx, next) => {

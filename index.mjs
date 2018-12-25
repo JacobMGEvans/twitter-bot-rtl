@@ -3,6 +3,8 @@ import Router from 'koa-router';
 import Twit from 'twit';
 import dotenv from 'dotenv';
 import fetch from 'node-fetch';
+import axios from 'axios';
+
 dotenv.config();
 
 const Twitter = new Twit({
@@ -65,28 +67,28 @@ router.get('/tweet', async (ctx, next) => {
   // Once  the retweet
   // fetch random wisdom to post from some other API
   const hashesAndStuff = `#javascript #react #node #startup #coding @AudeaDev`;
-  const dataQuotes = await fetch(
-    'http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&_jsonp=mycallback',
+  const dataQuotes = await axios.get(
+    'http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1'
+  );
+  const { data } = dataQuotes;
+  const { title, content } = data[0];
+
+  const postTweet = await Twitter.post(
+    'statuses/update',
     {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
+      status: `
+      " ${content.replace(/<\/?p[^>]*>/g, '')}"
+      ~${title}
+      ${hashesAndStuff}`
+    },
+    (err, dataTweet, response) => {
+      console.log('*******####DATA####*******', dataTweet);
+
+      err ? console.log('*****######ERROR!!!!', err) : response;
     }
   );
-  console.log(dataQuotes.headers);
 
-  // const postTweet = await Twitter.post(
-  //   'statuses/update',
-  //   {
-  //     status: `${dataQuotes} ${hashesAndStuff}`
-  //   },
-  //   (err, dataTweet, response) => {
-  //     console.log('*******####DATA####*******', dataTweet);
-
-  //     err ? console.log('*****######ERROR!!!!', err) : response;
-  //   }
-  // );
-
-  // ctx.body(postTweet);
+  return postTweet;
 });
 
 app.use(router.routes()).use(router.allowedMethods());

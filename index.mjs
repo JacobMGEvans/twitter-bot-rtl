@@ -93,5 +93,16 @@ router.get('/tweet', async (ctx, next) => {
   return postTweet;
 });
 
+router.get('/follow', async (ctx, next) => {
+  const queryOptions = `reactjs OR #javascript OR parceljs OR Dan Abramov OR microsoft`;
+
+  const searchUser = axios.get(
+    'https://api.twitter.com/1.1/users/search.json?q=reactjs',
+    {}
+  );
+  console.log(await searchUser);
+  return searchUser;
+});
+
 app.use(router.routes()).use(router.allowedMethods());
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));

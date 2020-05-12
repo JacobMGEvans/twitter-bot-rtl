@@ -11,6 +11,14 @@
     "start": "babel-node --experimental-modules index.mjs"
   },
   "dependencies": {
+    "axios": "^0.19.2",
+    "dotenv": "8.2.0",
+    "koa": "2.11.0",
+    "koa-router": "8.0.8",
+    "node-fetch": "^2.6.0",
+    "twit": "2.2.11"
+  },
+  "devDependencies": {
     "@babel/core": "7.9.0",
     "@babel/node": "7.8.7",
     "@babel/plugin-proposal-class-properties": "7.8.3",
@@ -35,14 +43,6 @@
     "@babel/plugin-transform-property-literals": "7.8.3",
     "@babel/preset-env": "7.9.0",
     "@babel/preset-react": "7.9.4",
-    "axios": "^0.19.2",
-    "dotenv": "8.2.0",
-    "koa": "2.11.0",
-    "koa-router": "8.0.8",
-    "node-fetch": "^2.6.0",
-    "twit": "2.2.11"
-  },
-  "devDependencies": {
     "babel-eslint": "10.1.0",
     "eslint": "6.8.0"
   }

@@ -16,6 +16,7 @@ const Twitter = new Twit({
 const app = new Koa();
 const router = new Router();
 const PORT = process.env.PORT || 3000;
+const QUERY_STRING_LIST = `@reactjs OR #javascript OR @parceljs OR #100DaysOfCode OR #CodeNewbie OR #DEVCommunity OR #helpmecode`
 console.log('HELLO I AM THE TWITTER BOT');
 
 router.get('/', async (ctx, next) => {
@@ -23,18 +24,17 @@ router.get('/', async (ctx, next) => {
 });
 
 router.get('/retweet', async (ctx, next) => {
-  const queryOptions = `@reactjs OR #javascript OR @parceljs`;
   const foundIdArray = [];
 
   const searchTweets = await Twitter.get(
     'search/tweets',
     {
-      q: queryOptions,
+      q: QUERY_STRING_LIST,
       count: 10,
       lang: 'en'
     },
     (err, data, response) => {
-      data.statuses.map((ele, index) => {
+      data.statuses.map((_, index) => {
         console.log(data.statuses[0]);
         const { id_str } = data.statuses[index];
         foundIdArray.push(id_str);
@@ -68,7 +68,7 @@ router.get('/tweet', async (ctx, next) => {
   // Might change to a stream that happens on an event like follow that sends a message to the user
   // Once  the retweet
   // fetch random wisdom to post from some other API
-  const hashesAndStuff = `#javascript #react #node #startup #coding @AudeaDev`;
+  const hashesAndStuff = `#javascript #react #node #startup #coding`;
   const dataQuotes = await axios.get(
     'http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1'
   );

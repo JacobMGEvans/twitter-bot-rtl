@@ -11,7 +11,9 @@
     - Koa
     - Axios
     - Twit
+    - Babel
     - Twitter API
     - Quotes on Design
 
 ## Coveralls and Travis CI
+TODO

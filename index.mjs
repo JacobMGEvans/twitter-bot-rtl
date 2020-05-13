@@ -16,14 +16,14 @@ const Twitter = new Twit({
 const app = new Koa();
 const router = new Router();
 const PORT = process.env.PORT || 3000;
-const QUERY_STRING_LIST = `@reactjs OR #javascript OR @parceljs OR #100DaysOfCode OR #CodeNewbie OR #DEVCommunity OR #helpmecode`
+const QUERY_STRING_LIST = `#100DaysOfCode OR #CodeNewbie OR #DEVCommunity OR #helpmecode`
 console.log('HELLO I AM THE TWITTER BOT');
 
-router.get('/', async (ctx, next) => {
+router.get('/', async (ctx) => {
   ctx.body = `HOME ROUTE FOR TWITTER BOT`;
 });
 
-router.get('/retweet', async (ctx, next) => {
+router.get('/retweet', async (ctx) => {
   const foundIdArray = [];
 
   const searchTweets = await Twitter.get(
@@ -60,6 +60,7 @@ router.get('/retweet', async (ctx, next) => {
       err ? console.error('#*#*#ERROR*#*#*', err) : response;
     }
   );
+  console.log(searchTweets)
   ctx.body(searchTweets);
   return searchTweets;
 });
@@ -93,7 +94,7 @@ router.get('/tweet', async (ctx, next) => {
   return postTweet;
 });
 
-router.get('/follow', async (ctx, next) => {
+router.get('/follow', async () => {
   const queryOptions = `reactjs OR #javascript OR parceljs OR Dan Abramov OR microsoft`;
 
   const searchUser = axios.get(
@@ -105,4 +106,4 @@ router.get('/follow', async (ctx, next) => {
 });
 
 app.use(router.routes()).use(router.allowedMethods());
-app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
+app.listen(PORT, () => console.log(`App listening on port ${PORT}!`));

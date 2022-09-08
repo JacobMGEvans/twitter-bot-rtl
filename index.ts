@@ -7,8 +7,8 @@ import got from "got";
 dotenv.config();
 
 const Twitter = new Twit({
-  consumer_key: process.env.KEY,
-  consumer_secret: process.env.CONSUMER_SECRET,
+  consumer_key: process.env.KEY ?? "",
+  consumer_secret: process.env.CONSUMER_SECRET ?? "",
   access_token: process.env.TOKEN,
   access_token_secret: process.env.TOKEN_SECRET,
 });
@@ -24,8 +24,7 @@ router.get("/", async (ctx) => {
 });
 
 router.get("/retweet", (ctx) => {
-  const foundIdArray = [];
-
+  const foundIdArray: string[] = [];
   const searchTweets = Twitter.get(
     "search/tweets",
     {
@@ -34,9 +33,10 @@ router.get("/retweet", (ctx) => {
       lang: "en",
     },
     (err, data, response) => {
-      data.statuses.map((_, index) => {
-        console.log(data.statuses[0]);
-        const { id_str } = data.statuses[index];
+      type RetweetData = { statuses: { id_str: string }[] };
+      (data as RetweetData).statuses.map((status) => {
+        console.log(status);
+        const { id_str } = status;
         foundIdArray.push(id_str);
       });
 
@@ -67,7 +67,9 @@ router.get("/retweet", (ctx) => {
 
 router.get("/tweet", async (ctx, _) => {
   const hashesAndStuff = `#javascript #react #node #startup #coding`;
-  const {data: dataQuotes} = await got(
+  const {
+    data: dataQuotes,
+  }: { data: { data: { title: string; content: string }[] } } = await got(
     "http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1"
   ).json();
   const { data } = dataQuotes;
@@ -87,16 +89,16 @@ router.get("/tweet", async (ctx, _) => {
       err ? console.log("*****######ERROR!!!!", err) : response;
     }
   );
-  ctx.body = postMessage;
+  ctx.body = postTweet;
   return postTweet;
 });
 
 router.get("/follow", async () => {
-  const { data: searchUser } = got(
+  const { data: searchUser }: { data: object } = await got(
     "https://api.twitter.com/1.1/users/search.json?q=reactjs",
     {}
   ).json();
-  console.log(await searchUser);
+  console.log(searchUser);
   return searchUser;
 });
 
